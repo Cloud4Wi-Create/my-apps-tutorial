@@ -20,9 +20,9 @@
 
 <?php
 
-echo C4W_ENV_SPLASHPORTAL_URL;
-echo C4W_ENV_CONTROLPANEL_URL;
-echo C4W_ENV_MYAPPS_GET_SK_URL;
+echo getenv('C4W_ENV_SPLASHPORTAL_URL');
+echo getenv('C4W_ENV_CONTROLPANEL_URL');
+echo getenv('C4W_ENV_MYAPPS_GET_SK_URL');
 
 ?>
 
