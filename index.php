@@ -122,6 +122,8 @@ if ($gotUserData) {
 
     MYAPPS.renderNavbar(params);
     document.body.style.marginTop = "50px";
+    document.body.style.fontFamily = '"Times New Roman", "Times", "Georgia", Helvetica, Arial, sans-serif';
+
 </script>
 </body>
 </html>
