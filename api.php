@@ -33,4 +33,7 @@ switch ($_GET["action"]) {
         $value = "Incorrect action call";
 }
 
-exit(json_encode($value));
+exit(json_encode(array(
+    "value"=>$value,
+    "action"=>$_GET['action']
+)));
