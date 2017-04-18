@@ -50,9 +50,7 @@
         $.ajax({
             url:'/api.php',
             data: {
-                pre:pre,
-                post:post,
-                action:'set_messages'
+                action:'get_messages'
             },
             success:function(data) {
                 console.log(data);
@@ -60,7 +58,7 @@
             error:function(data) {
                 console.log(data);
             },
-            method:'POST'
+            method:'GET'
         })
     });
 
