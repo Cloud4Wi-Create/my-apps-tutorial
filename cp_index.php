@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<div class="brand">Coffee Works</div>
-<div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>
 <div class="container">
     <div class="row">
         <div class="box">
@@ -20,7 +18,6 @@
                 <hr>
                 <h2 class="intro-text text-center">Parameters</h2>
                 <hr>
-                <img class="img-responsive img-border img-left" src="img/DeathtoStock_Wired1.jpg" alt="" height="100" width="100">
                 <hr class="visible-xs">
                 <form id="app_parameters">
                     <div class="form-group">
@@ -58,7 +55,7 @@
             error:function(data) {
                 console.log(data);
             },
-            method:'GET'
+            type:'POST'
         })
     });
 
@@ -83,7 +80,7 @@
             error:function(data) {
                 console.log(data);
             },
-            method:'POST'
+            type:'POST'
         })
     });
 
