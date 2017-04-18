@@ -1,0 +1,4 @@
+{
+    "pre":"Hello, welcome to the shop",
+    "post":"Hello {name}, welcome to the shop. Here is your coffee for logging in!"
+}
