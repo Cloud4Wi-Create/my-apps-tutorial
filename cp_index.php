@@ -63,10 +63,10 @@
                 var postAuthMessageInput = $("#pre_auth_message");
 
                 if(data.status === 'success') {
-                    if(!!data.status.value.pre) {
+                    if(!!data.value.pre) {
                         preAuthMessageInput.val(data.status.value.pre);
                     }
-                    if(!!data.status.value.post) {
+                    if(!!data.value.post) {
                         postAuthMessageInput.val(data.status.value.post);
                     }
                 }
@@ -88,32 +88,21 @@
         var apiSuccessMessage = $("#api_success_message");
         var apiFailureMessage = $("#api_failure_message");
 
-        var postObject = $.post( "/api.php", {
+        $.ajax({
+            url:'/api.php',
+            data: {
                 pre:preAuthMessage,
                 post:postAuthMessage,
                 action:'set_messages'
-            }, function() {
-                console.log(arguments);
-                console.log("Success");
-            });
-
-        console.log(postObject);
-
-//        $.ajax({
-//            url:'/api.php',
-//            data: {
-//                pre:pre,
-//                post:post,
-//                action:'set_messages'
-//            },
-//            success:function(data) {
-//                console.log(data);
-//            },
-//            error:function(data) {
-//                console.log(data);
-//            },
-//            method:'GET'
-//        })
+            },
+            success:function(data) {
+                console.log(data);
+            },
+            error:function(data) {
+                console.log(data);
+            },
+            method:'GET'
+        })
     });
 
 </script>
