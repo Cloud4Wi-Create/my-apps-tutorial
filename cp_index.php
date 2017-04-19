@@ -64,10 +64,10 @@
 
                 if(data.status === 'success') {
                     if(!!data.value.pre) {
-                        preAuthMessageInput.val(data.status.value.pre);
+                        preAuthMessageInput.val(data.value.pre);
                     }
                     if(!!data.value.post) {
-                        postAuthMessageInput.val(data.status.value.post);
+                        postAuthMessageInput.val(data.value.post);
                     }
                 }
             },
@@ -88,6 +88,8 @@
         var apiSuccessMessage = $("#api_success_message");
         var apiFailureMessage = $("#api_failure_message");
 
+        if(!apiFailureMessage.hasClass('hide')) apiFailureMessage.addClass('hide');
+
         $.ajax({
             url:'/api.php',
             data: {
@@ -96,10 +98,23 @@
                 action:'set_messages'
             },
             success:function(data) {
+                data = typeof(data) === 'string' ? JSON.parse(data) : data;
                 console.log(data);
+
+                if(data.status === 'success') {
+                    apiSuccessMessage.removeClass('hide');
+
+                    setTimeout(function() {
+                        apiSuccessMessage.addClass('hide');
+                    }, 3000);
+                }
+                if(data.status === 'error') {
+                    apiFailureMessage.removeClass('hide');
+                }
             },
             error:function(data) {
                 console.log(data);
+                apiFailureMessage.removeClass('hide');
             },
             method:'GET'
         })
