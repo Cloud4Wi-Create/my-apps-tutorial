@@ -69,7 +69,7 @@ we return an object:
 { 
      "auth": {
         "level": "tenant"
-        "tenantId": "64"
+        "tenantId": "1001"
      }
      "lang": "eng"
 } 
@@ -81,9 +81,9 @@ From the Venue level, you will get an object like this:
 {
     "lang": "eng",
     "auth": {
-        "tenantId": "63",
+        "tenantId": "1001",
         "level": "wifiarea",
-        "wifiareaId": "80808080482080f2014821fa046b0001"
+        "wifiareaId": "80808080482080f20148asdf3246b0001"
     }
 }
 ```
