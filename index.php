@@ -151,17 +151,6 @@ if ($gotUserData) {
     </div>
 
 </div>
-<!-- /.container -->
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <p>Copyright &copy; Coffee Works 2014</p>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
