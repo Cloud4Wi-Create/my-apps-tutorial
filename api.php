@@ -1,20 +1,41 @@
 <?php
-function set_messages($pre, $post) {
+function set_messages($pre, $post, $tenantId) {
     $file = "messages.txt";
 
-    $json = array("pre" => $pre, "post" => $post);
+    $messages = array("pre" => $pre, "post" => $post);
+
+
+    if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
+        $json[] = array(
+          $tenantId => $messages
+        );
+    } else {
+        $json[$tenantId] = $messages;
+    }
 
     file_put_contents($file, json_encode($json));
 
-    return $json;
+    return $json[$tenantId];
 }
 
-function get_messages() {
+function get_messages($tenantId) {
     $file = "messages.txt";
 
     $json = json_decode(file_get_contents($file), true);
 
-    return $json;
+    if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
+        $json = $json[$tenantId];
+        return $json;
+    }
+
+    return "tenant not found";
+}
+
+function get_tenant($tenantId) {
+    $file = "messages.txt";
+
+    $json = json_decode(file_get_contents($file), true);
+
 }
 
 switch ($_GET["action"]) {

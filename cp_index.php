@@ -16,7 +16,7 @@ $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GE
  * SK is not set in the URL or if the API call is not a successful one,
  * then it will return a false boolean. Otherwise it will return the object
  *
- * @return object;
+ * @return object/bool;
  */
 
 function callApi() {
@@ -47,18 +47,15 @@ function callApi() {
         // Return false if status of API call is not success
         if($session['status'] == 'success') {
             return $c4w;
-        } else {
-            return false;
         }
-    } else {
-        return false;
     }
+    return false;
 }
 
 ?>
 
 <script type="text/javascript">
-    console.log(<?php echo json_encode(callApi()); ?>);
+    var config = <?php echo json_encode(callApi()); ?>);
 </script>
 
 <!DOCTYPE html>
@@ -116,6 +113,7 @@ function callApi() {
         $.ajax({
             url:'/api.php',
             data: {
+                tenantId:config.auth.tenantId,
                 action:'get_messages'
             },
             success:function(data) {
@@ -156,6 +154,7 @@ function callApi() {
         $.ajax({
             url:'/api.php',
             data: {
+                tenantId:config.auth.tenantId,
                 pre:preAuthMessage,
                 post:postAuthMessage,
                 action:'set_messages'

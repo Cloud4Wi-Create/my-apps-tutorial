@@ -4,7 +4,7 @@ Tutorial for "My Apps" for Volare release 6.5
 ## Table of Contents
 * [Purpose](#Purpose)
 * [Prerequisites](#Prerequisites)
-* [The App](#The App)
+* [The App](#The--App)
 * [Process](#Process)
     1. [Register Your App](#1.--Register--your--app)
     2. [Import Your App](#2.--Import--your--published--app--into--your--"My--Apps"--section--on--Volare)
