@@ -29,7 +29,8 @@
                         <label for="post_auth_message">Post Auth Message</label>
                         <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {name} to the coffee shop!">
                     </div>
-                    <p class="bg-success hide">Success</p>
+                    <p class="bg-success hide" id="api_status_message">Success</p>
+                    <p class="bg-danger hide" id="api_failure_message">Failure</p>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
@@ -56,6 +57,7 @@
             },
             success:function(data) {
                 console.log(data);
+                data = typeof(data) === 'string' ? JSON.parse(data) : data;
 
                 var preAuthMessageInput = $("#pre_auth_message");
                 var postAuthMessageInput = $("#pre_auth_message");
@@ -83,13 +85,14 @@
 
         var preAuthMessage = $("#pre_auth_message").val();
         var postAuthMessage = $("#post_auth_message").val();
+        var apiSuccessMessage = $("#api_success_message");
+        var apiFailureMessage = $("#api_failure_message");
 
         var postObject = $.post( "/api.php", {
                 pre:preAuthMessage,
                 post:postAuthMessage,
                 action:'set_messages'
             }, function() {
-
                 console.log(arguments);
                 console.log("Success");
             });
