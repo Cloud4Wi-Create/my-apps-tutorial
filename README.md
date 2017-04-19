@@ -16,7 +16,7 @@ capabilities that the "My Apps" feature has to offer.
 
 ### Process
 All right, now that you have everything you need to integrate with My Apps, let's get started!
-##### 1. Register your app
+#### 1. Register your app
    * Go to [developers.cloud4wi.com](https://developers.cloud4wi.com)
    * Log in and click on "Create New App".
    * Fill out the first part of the form.  Try to be descriptive, as 
@@ -36,7 +36,7 @@ All right, now that you have everything you need to integrate with My Apps, let'
    Once you are ready, click "Publish" and it will provide you with a code.  Make sure to keep 
    the _App ID_, you will need it in the next step.
    
-##### 2. Register your published app in your "My Apps" section on Volare
+#### 2. Register your published app in your "My Apps" section on Volare
    * Go to [volare.cloud4wi.com](https:volare.cloud4wi.com) and log in to your Tenant account.
    * Click on the "Apps" link inside the "Manage" section of the sidebar.
    * Click on the "Add" button in the top right of the page
