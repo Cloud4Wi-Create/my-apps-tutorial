@@ -1,3 +1,66 @@
+<?php
+
+define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL'));
+define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL'));
+define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL'));
+
+$getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
+
+?>
+
+<?php
+
+/**
+ * @description: This function will not take any parameters,
+ * it will just call the C4W API and return the data.  If the
+ * SK is not set in the URL or if the API call is not a successful one,
+ * then it will return a false boolean. Otherwise it will return the object
+ *
+ * @return object;
+ */
+
+function callApi() {
+    $sk = $_GET['sk'];
+    $cookie = $_COOKIE['c4w'];
+
+    // Check to see if any of the places where SK is set exists
+    if(isset($sk) && !empty($sk)) {
+
+        // Concatenate URL
+        $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk;
+
+        // Call C4W API
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $getSessionDataUrl
+        ));
+        $result = curl_exec($curl);
+        $session = json_decode($result, true);
+
+        // Create customer variable
+        $c4w = array();
+        if(isset($session['data']) && !empty($session['data'])) {
+            $c4w = $session['data'];
+        }
+
+        // Return false if status of API call is not success
+        if($session['status'] == 'success') {
+            return $c4w;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+?>
+
+<script type="text/javascript">
+    console.log(<?php json_encode(callApi()); ?>);
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
