@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
+<div class="brand">Coffee Works</div>
 <div class="container">
     <div class="row">
         <div class="box">
@@ -55,7 +56,7 @@
             error:function(data) {
                 console.log(data);
             },
-            type:'POST'
+            method:'GET'
         })
     });
 
@@ -64,24 +65,35 @@
     form.on('submit', '#app_parameters', function(e) {
         e.preventDefault();
 
-        var pre = $("#pre_auth_message").val();
-        var post = $("#post_auth_message").val();
+        var preAuthMessage = $("#pre_auth_message").val();
+        var postAuthMessage = $("#post_auth_message").val();
 
-        $.ajax({
-            url:'/api.php',
-            data: {
-                pre:pre,
-                post:post,
+        var postObject = $.post( "example.php", {
+                pre:preAuthMessage,
+                post:postAuthMessage,
                 action:'set_messages'
-            },
-            success:function(data) {
-                console.log(data);
-            },
-            error:function(data) {
-                console.log(data);
-            },
-            type:'POST'
-        })
+            }, function() {
+                console.log(arguments);
+                console.log("Success");
+            });
+
+        console.log(postObject);
+
+//        $.ajax({
+//            url:'/api.php',
+//            data: {
+//                pre:pre,
+//                post:post,
+//                action:'set_messages'
+//            },
+//            success:function(data) {
+//                console.log(data);
+//            },
+//            error:function(data) {
+//                console.log(data);
+//            },
+//            method:'GET'
+//        })
     });
 
 </script>
