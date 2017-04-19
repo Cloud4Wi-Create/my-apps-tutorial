@@ -58,7 +58,7 @@ function callApi() {
 ?>
 
 <script type="text/javascript">
-    console.log(<?php json_encode(callApi()); ?>);
+    console.log(<?php echo json_encode(callApi()); ?>);
 </script>
 
 <!DOCTYPE html>
