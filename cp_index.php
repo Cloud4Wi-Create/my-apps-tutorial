@@ -22,13 +22,14 @@
                 <hr class="visible-xs">
                 <form id="app_parameters">
                     <div class="form-group">
-                        <label for="pre_auth_message">Email address</label>
+                        <label for="pre_auth_message">Pre Auth Message</label>
                         <input type="text" class="form-control" id="pre_auth_message" placeholder="i.e. Welcome to the coffee shop!">
                     </div>
                     <div class="form-group">
-                        <label for="post_auth_message">Password</label>
+                        <label for="post_auth_message">Post Auth Message</label>
                         <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {name} to the coffee shop!">
                     </div>
+                    <p class="bg-success hide">Success</p>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
@@ -37,14 +38,17 @@
 </div>
 
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
+        /**
+         * To check and see if there are any messages already stored
+         * in order to pre-populate inputs
+         */
         $.ajax({
             url:'/api.php',
             data: {
@@ -52,6 +56,18 @@
             },
             success:function(data) {
                 console.log(data);
+
+                var preAuthMessageInput = $("#pre_auth_message");
+                var postAuthMessageInput = $("#pre_auth_message");
+
+                if(data.status === 'success') {
+                    if(!!data.status.value.pre) {
+                        preAuthMessageInput.val(data.status.value.pre);
+                    }
+                    if(!!data.status.value.post) {
+                        postAuthMessageInput.val(data.status.value.post);
+                    }
+                }
             },
             error:function(data) {
                 console.log(data);
@@ -68,11 +84,12 @@
         var preAuthMessage = $("#pre_auth_message").val();
         var postAuthMessage = $("#post_auth_message").val();
 
-        var postObject = $.post( "example.php", {
+        var postObject = $.post( "/api.php", {
                 pre:preAuthMessage,
                 post:postAuthMessage,
                 action:'set_messages'
             }, function() {
+
                 console.log(arguments);
                 console.log("Success");
             });
