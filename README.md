@@ -35,6 +35,7 @@ to the cashier for your free cup of coffee!"
 ### Process
 Now that you have everything you need to integrate with My Apps, let's get started! *Drum roll*
 #### 1. Register your app
+**Disclaimer**: All of these settings can be modified as you change and evolve your app. 
    * Go to [developers.cloud4wi.com](https://developers.cloud4wi.com)
    * Log in and click on "Create New App".
    * Fill out the first part of the form.  Try to be descriptive, as 
@@ -42,6 +43,8 @@ Now that you have everything you need to integrate with My Apps, let's get start
    * **App Management**
        * **App Visibility** - Allows Venue owners to configure their respective venues, or only allow
        Tenant level users to configure the app.
+           * I set this to "Tenant" for the sake of the KISS principle (Keep it Stupid Simple). 
+           This can always be changed later as your app evolves.
        * **Enable Pre-Authentication Mode** - This allows the app to be triggered before it is
         authenticated by the wi-fi hotspot.
    * **App Endpoints**
@@ -69,7 +72,37 @@ Now that you have everything you need to integrate with My Apps, let's get start
 #### 3. Coding the Admin Panel Settings Page
 In this page, you can call our My Apps API in order to get information on the user.  
 For both the Admin Panel Settings Page and the Customer Facing page, you can call the same
-API but we will return information based on where you are calling from. 
+API but we will return information based on where you are calling from.
+
+We import an iFrame into our Control Panel and inject a variable into the URL named "sk".
+You will have to extract that from the URL, as that is the session code we use to authenticate 
+and identify your app. Here is a quick way to do it in PHP:
+
+`$sk = $_GET['sk'];`
+
+And then just concatenate it on to the end of the Volare My Apps API:
+ 
+`$url = 'https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions/' . $sk;`
+ 
+Next, make a function in PHP to call to the Cloud4Wi API. This is located in our /cp_index.php file 
+starting at line 22 inside the function named: `function callApi`
+
+```
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => $url
+));
+$result = curl_exec($curl);
+$session = json_decode($result, true);
+```
+We return the data in JSON format, so if you intend to use it with a language other than JavaScript, 
+make sure to decode it. 
+
+Now, since the next part will require the use of some user interaction, let's declare the returned 
+data in a JavaScript variable:
+ 
+`var config = <?php echo json_encode(callApi()); ?>;`
 
 So when you call the API from the Admin Panel Settings Page from the Tenant level, 
 we return an object:
@@ -100,5 +133,51 @@ From the Venue level, you will get an object like this:
 With this, you can take the `tenantId` and store configurations based on that,
 or the `wifiareaId` if you are allowing the Venue owners to configure the app
 by themselves.
-   
 
+So, going along with what we talked about in the beginning, let's create a form that has two inputs:
+* Pre-authentication greeting, prompting the user to log in for a free cup of coffee.
+* Post-authentication greeting, thanking the user for logging in and presenting a free cup of coffee.
+ 
+Here it is, in all its glory:
+```
+<form id="app_parameters">
+    <div class="form-group">
+        <label for="pre_auth_message">Pre Auth Message</label>
+        <input type="text" class="form-control" id="pre_auth_message" placeholder="i.e. Welcome to the coffee shop!">
+    </div>
+    <div class="form-group">
+        <label for="post_auth_message">Post Auth Message</label>
+        <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {name} to the coffee shop!">
+    </div>
+    <p class="bg-success hide" id="api_success_message">Success</p>
+    <p class="bg-danger hide" id="api_failure_message">Failure</p>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+```
+Now that we have a form, we will handle the data when it is submitted and store it somewhere. Let's create
+an AJAX call to an API, consisting of three crucial points of data:
+* Pre-authentication message
+* Post-authentication message
+* Tenant ID
+
+On line 161, there is a jQuery event listener waiting for the form submit. Above that are comments that 
+explain why. Here is the AJAX call:
+
+```
+$.ajax({
+    url:'/api.php',
+    data: {
+        tenantId:config.auth.tenantId,
+        pre:preAuthMessage,
+        post:postAuthMessage,
+        action:'set_messages'
+    },
+    success:function(data) {
+        // enter 
+    },
+    error:function(data) {
+        apiFailureMessage.removeClass('hide');
+    },
+    method:'GET'
+})
+```
