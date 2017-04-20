@@ -25,22 +25,22 @@ $lastName = NULL;
 
 function callApi() {
     $sk = $_GET['sk'];
-    $cookie = $_COOKIE['c4w'];
 
     // Check to see if any of the places where SK is set exists
     if(isset($sk) && !empty($sk)) {
 
         // Concatenate URL
-        $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk; // https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions
+        $url = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk; // https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions
 
         // Barebones call to the API using PHP curl
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $getSessionDataUrl
+            CURLOPT_URL => $url
         ));
         $result = curl_exec($curl);
-        $session = json_decode($result, true);
+        return $result;
+        $session = json_encode($result, true);
 
         return $session;
 
