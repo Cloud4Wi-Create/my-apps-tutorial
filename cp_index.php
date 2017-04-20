@@ -21,19 +21,18 @@ $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GE
 
 function callApi() {
     $sk = $_GET['sk'];
-    $cookie = $_COOKIE['c4w'];
 
     // Check to see if any of the places where SK is set exists
     if(isset($sk) && !empty($sk)) {
 
         // Concatenate URL
-        $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk;
+        $url = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk;
 
         // Call C4W API
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $getSessionDataUrl
+            CURLOPT_URL => $url
         ));
         $result = curl_exec($curl);
         $session = json_decode($result, true);
@@ -55,6 +54,7 @@ function callApi() {
 ?>
 
 <script type="text/javascript">
+    // For use in JavaScript
     var config = <?php echo json_encode(callApi()); ?>);
 </script>
 
@@ -105,10 +105,18 @@ function callApi() {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    /**
+     * This is where we make calls to the third-party
+     * database,
+     */
     $(document).ready(function() {
         /**
          * To check and see if there are any messages already stored
-         * in order to pre-populate inputs
+         * in order to pre-populate inputs.
+         *
+         * If there are values for either the pre or post authentication
+         * messages, then it will populate them individually. One
+         * does not affect the other.
          */
         $.ajax({
             url:'/api.php',
@@ -117,7 +125,6 @@ function callApi() {
                 action:'get_messages'
             },
             success:function(data) {
-                console.log(data);
                 data = typeof(data) === 'string' ? JSON.parse(data) : data;
 
                 var preAuthMessageInput = $("#pre_auth_message");
@@ -131,16 +138,26 @@ function callApi() {
                         postAuthMessageInput.val(data.value.post);
                     }
                 }
-            },
-            error:function(data) {
-                console.log(data);
-            },
+            }
             method:'GET'
         })
     });
 
     var form = $(document);
 
+    /**
+     * @description
+     * On form submit, this will take variables "preAuthMessage" and "postAuthMessage"
+     * along with "tenantId", and send them to the API.
+     *
+     * In case of any error, it will show the error message until the next time
+     * you submit the data.
+     *
+     * In case of success, it will show the success message for 3 seconds and then
+     * hide it again.
+     *
+     * This is just a quick GET call to send data.
+     */
     form.on('submit', '#app_parameters', function(e) {
         e.preventDefault();
 
@@ -161,7 +178,6 @@ function callApi() {
             },
             success:function(data) {
                 data = typeof(data) === 'string' ? JSON.parse(data) : data;
-                console.log(data);
 
                 if(data.status === 'success') {
                     apiSuccessMessage.removeClass('hide');
@@ -175,7 +191,6 @@ function callApi() {
                 }
             },
             error:function(data) {
-                console.log(data);
                 apiFailureMessage.removeClass('hide');
             },
             method:'GET'

@@ -31,9 +31,9 @@ function callApi() {
     if(isset($sk) && !empty($sk)) {
 
         // Concatenate URL
-        $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk;
+        $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk; // https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions
 
-        // Call C4W API
+        // Barebones call to the API using PHP curl
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
@@ -51,11 +51,7 @@ function callApi() {
         // Return false if status of API call is not success
         if($session['status'] == 'success') {
             return $c4w;
-        } else {
-            return false;
         }
-    } else {
-        return false;
     }
 }
 
@@ -145,6 +141,7 @@ if ($gotUserData) {
                 <hr class="visible-xs">
                 <p>
                     Present this to the register in order to get your free coffee for the loyalty you've provided us!
+                    <?php echo json_encode($data); ?>
                 </p>
             </div>
         </div>

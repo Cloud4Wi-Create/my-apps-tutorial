@@ -8,7 +8,8 @@ Tutorial for "My Apps" for Volare release 6.5
 * [Process](#process)
     1. [Register Your App](#1-register-your-app)
     2. [Import Your App](#2-import-your-published-app-into-your-my-apps-section-on-volare)
-    3. [Coding Admin Page](#3-coding-the-admin-panel-settings-page)
+    3. [Creating the Admin Panel Settings Page](#3-creating-the-admin-panel-settings-page)
+    4. [Creating the End-User Experience](#4-creating-the-end-user-experience)
 
 ### Purpose
 This is a bare-bones app that shows the initial
@@ -47,6 +48,7 @@ Now that you have everything you need to integrate with My Apps, let's get start
            This can always be changed later as your app evolves.
        * **Enable Pre-Authentication Mode** - This allows the app to be triggered before it is
         authenticated by the wi-fi hotspot.
+           * Please set this to 
    * **App Endpoints**
         * **Base URL** - This is the base domain that your app is hosted on. Ex: https://google.com
         * **App Bar Page** - This will display in the app bar if the app is enabled in the Welcome Portal.
@@ -69,7 +71,7 @@ Now that you have everything you need to integrate with My Apps, let's get start
    click on "Open" and it will take you to the **Admin Panel Settings Page** that you entered in previous step.
    * Great! Now we can get to the fun stuff, like coding and customizing our apps.
    
-#### 3. Coding the Admin Panel Settings Page
+#### 3. Creating the Admin Panel Settings Page
 In this page, you can call our My Apps API in order to get information on the user.  
 For both the Admin Panel Settings Page and the Customer Facing page, you can call the same
 API but we will return information based on where you are calling from.
@@ -173,7 +175,18 @@ $.ajax({
         action:'set_messages'
     },
     success:function(data) {
-        // enter 
+        data = typeof(data) === 'string' ? JSON.parse(data) : data;
+        
+        if(data.status === 'success') {
+            apiSuccessMessage.removeClass('hide');
+
+            setTimeout(function() {
+                apiSuccessMessage.addClass('hide');
+            }, 3000);
+        }
+        if(data.status === 'error') {
+            apiFailureMessage.removeClass('hide');
+        }
     },
     error:function(data) {
         apiFailureMessage.removeClass('hide');
@@ -181,3 +194,47 @@ $.ajax({
     method:'GET'
 })
 ```
+
+Now, please note that this is a call to _your_ third-party API, in order to save
+the pre-authentication and post-authentication messages, along with the Tenant ID
+so that you can create your custom logic on your app.
+
+**OPTIONAL**:
+
+There is one other API call in the front-end for this app, to check and see if there
+ are already messages configured for you. Here it is:
+ 
+```
+$.ajax({
+    url:'/api.php',
+    data: {
+        tenantId:config.auth.tenantId,
+        action:'get_messages'
+    },
+    success:function(data) {
+        data = typeof(data) === 'string' ? JSON.parse(data) : data;
+
+        var preAuthMessageInput = $("#pre_auth_message");
+        var postAuthMessageInput = $("#post_auth_message");
+
+        if(data.status === 'success') {
+            if(!!data.value.pre) {
+                preAuthMessageInput.val(data.value.pre);
+            }
+            if(!!data.value.post) {
+                postAuthMessageInput.val(data.value.post);
+            }
+        }
+    },
+    method:'GET'
+})
+```
+
+Pretty straight-forward, all we are doing here is checking to see if there are messages
+already stored for this Tenant, and if there is, we populate the input fields with them.
+Done and done. Let's move on.
+
+#### 4. Creating the End-User Experience
+
+Now that we have a functioning settings page, it's time for us to set our focus on the 
+end-user.  
