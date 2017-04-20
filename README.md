@@ -2,13 +2,13 @@
 Tutorial for "My Apps" for Volare release 6.5
 
 ## Table of Contents
-* [Purpose](#Purpose)
-* [Prerequisites](#Prerequisites)
-* [The App](#The--App)
-* [Process](#Process)
-    1. [Register Your App](#1.--Register--your--app)
-    2. [Import Your App](#2.--Import--your--published--app--into--your--"My--Apps"--section--on--Volare)
-    3. [Coding Admin Page](#3.--Coding--the--Admin--Panel--Settings--Page)
+* [Purpose](#purpose)
+* [Prerequisites](#prerequisites)
+* [The App](#the-app)
+* [Process](#process)
+    1. [Register Your App](#1-register-your-app)
+    2. [Import Your App](#2-import-your-published-app-into-your-my-apps-section-on-volare)
+    3. [Coding Admin Page](#3-coding-the-admin-panel-settings-page)
 
 ### Purpose
 This is a bare-bones app that shows the initial
