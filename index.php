@@ -42,6 +42,8 @@ function callApi() {
         $result = curl_exec($curl);
         $session = json_decode($result, true);
 
+        return $session;
+
         // Create customer variable
         $c4w = array();
         if(isset($session['data']) && !empty($session['data'])) {
