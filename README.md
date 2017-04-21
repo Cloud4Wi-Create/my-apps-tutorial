@@ -9,7 +9,9 @@ Tutorial for "My Apps" for Volare release 6.5
     1. [Register Your App](#1-register-your-app)
     2. [Import Your App](#2-import-your-published-app-into-your-my-apps-section-on-volare)
     3. [Creating the Admin Panel Settings Page](#3-creating-the-admin-panel-settings-page)
-    4. [Creating the End-User Experience](#4-creating-the-end-user-experience)
+    4. [Setting the App to the Access Journey](#4-setting-the-app-to-the-access-journey)
+    5. [Creating the End-User Experience](#5-creating-the-end-user-experience)
+    
 
 ### Purpose
 This is a bare-bones app that shows the initial
@@ -195,9 +197,27 @@ $.ajax({
 })
 ```
 
+
 Now, please note that this is a call to _your_ third-party API, in order to save
 the pre-authentication and post-authentication messages, along with the Tenant ID
 so that you can create your custom logic on your app.
+
+**TIP**:
+
+For the first message, since we won't know anything about the customer in the pre-authentication phase,
+we can provide a generic message like: "Welcome! Please sign in for a free cup of 
+coffee!"
+
+But for the second message, we are going to have conditional data from the API for the
+name, which means that we will have to insert something to specify where the "name" 
+variable is going to go. Luckily, we have thought of this in a clever (i.e. completely 
+standard) way. Viola:
+
+`Welcome, {name}, thank you for signing in! Please present this to your cashier
+to get a free cup of coffee!`
+
+With the brackets, it provides an easy way to split the string and insert variables.
+
 
 **OPTIONAL**:
 
@@ -231,10 +251,78 @@ $.ajax({
 ```
 
 Pretty straight-forward, all we are doing here is checking to see if there are messages
-already stored for this Tenant, and if there is, we populate the input fields with them.
+already stored for this Tenant, and if there are, we populate the input fields with them.
 Done and done. Let's move on.
 
-#### 4. Creating the End-User Experience
+#### 4. Setting the App to the Access Journey
+Now that we are ready to move on, we have to create a page for the end-user.  This means 
+that first, we have to set our app on the Access Journey for both the pre-authentication, 
+and post-authentication stages of the Access Journey:
+* Go to "Access Journey" under the Guest-Wifi tab in the sidebar.
+* You will see, at the top of the form, a section that says "Connect".
+* Click on "Add an Application".
+* Click on the dropdown and select your app.
+* Scroll down and find "Log In".
+* Do the same as before, select your app.
+* Click Save in the top right corner of the screen.
+
+Great, now we have the wifi-area configured to trigger your app in the pre-authentication
+and post-authentication phase.
+
+#### 5. Creating the End-User Experience
 
 Now that we have a functioning settings page, it's time for us to set our focus on the 
-end-user.  
+end-user. 
+
+Since we're developers, and we've mastered the art, let's copy and paste!
+
+The only differences between this file and the Admin Panel file at the beginning of this step:
+* There is no form - there will only be a message there for your customer.
+* The API calls at the bottom of the page are not there, we will make a different one.
+
+We can embellish the design a bit more if we would like, but for now we can move on 
+to creating the functionality.
+
+If you check the index.php page, you will notice that the API call is _exactly the same_. 
+This is on purpose, as we wanted to make sure the full process was as simple as possible.
+
+So, here we are calling the same exact API, and the data returned looks just a little
+bit different: 
+
+```
+"status": "success",
+"data": { 
+    "customer": {
+        "is_logged": false,
+        "lang": "eng"
+    },
+    "hotspot: {
+        "city": "Livorno, Italy",
+        "id": "9067",
+        "identifier": "685112345D_illiade",
+        "latitude": "45.960782503827",
+        "longitude": "12.091283106750",
+        "mac_address": "685112345D",
+        "name": "Odissea",
+        "state": "Livorno",
+        "tag": "hotspot",
+        "zip": "Livorno",
+    },
+    "tenant": {
+        "name": "Taylor's Tenant",
+        "read_only": false,
+        "tenant_id": "1001"
+    },
+    "wifiarea": {
+        "name": "Livorno Venue",
+        "wifiarea_id": "ae092a5b3e283c8373ke2bf18cde0005"
+    }
+}
+```
+
+Now, there are a few points to note here:
+* In the pre-authentication phase, the customer object has almost no information.  In the 
+ post-authentication phase, it will be populated with more information that we can use.
+
+
+ 

@@ -16,7 +16,7 @@ $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GE
  * SK is not set in the URL or if the API call is not a successful one,
  * then it will return a false boolean. Otherwise it will return the object
  *
- * @return object/bool;
+ * @returns { Object | Boolean };
  */
 
 function callApi() {
@@ -107,7 +107,7 @@ function callApi() {
 <script type="text/javascript">
     /**
      * This is where we make calls to the third-party
-     * database,
+     * database
      */
     $(document).ready(function() {
         /**

@@ -20,7 +20,7 @@ $lastName = NULL;
  * SK is not set in the URL or if the API call is not a successful one,
  * then it will return a false boolean. Otherwise it will return the object
  *
- * @return object;
+ * @return Object | Boolean;
  */
 
 function callApi() {
@@ -55,6 +55,8 @@ function callApi() {
             return $c4w;
         }
     }
+
+    return false;
 }
 
 ?>
@@ -75,7 +77,7 @@ function callApi() {
  * of the coffee shop, and with their name welcoming them for the first time
  *
  * @param $data
- * @return $string
+ * @return String;
  */
 function setSalutation($data) {
     $user = $data['user'];
@@ -128,6 +130,8 @@ if ($gotUserData) {
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.css"  crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css"/>
+
+
 </head>
 <body>
 <div class="brand">Coffee Works</div>
@@ -141,9 +145,8 @@ if ($gotUserData) {
                 <hr>
                 <img class="img-responsive img-border img-left" src="img/DeathtoStock_Wired1.jpg" alt="" height="100" width="100">
                 <hr class="visible-xs">
-                <p>
-                    Present this to the register in order to get your free coffee for the loyalty you've provided us!
-                    <?php echo json_encode($data); ?>
+                <p id="greeting">
+
                 </p>
             </div>
         </div>
@@ -151,12 +154,75 @@ if ($gotUserData) {
 
 </div>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
+
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="https://splashportal.cloud4wi.com/myapps/v1/myapps-sdk.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
+
+<script>
+    var config = <?php echo json_encode($data); ?>;
+
+    /**
+     * Takes a string and inserts variables inbetween the brackets
+     * @solution
+     * Split the string with regex to create individual
+     *
+     * @param string: String
+     * @param object: Object
+     *
+     *
+     */
+    function insertMessageVariables(string, object) {
+        var arr = string.split(/{|}/);
+        console.log(arr);
+
+        for(var x = 0; x < arr.length; x++) {
+            if(!!object[arr[x]]) {
+                arr[x] = object[arr[x]];
+                console.log(arr);
+            }
+        }
+        return arr.join('');
+    }
+
+    /**
+     * To check and see if there are any messages already stored
+     * in order to pre-populate inputs.
+     *
+     * If there are values for either the pre or post authentication
+     * messages, then it will populate them individually. One
+     * does not affect the other.
+     */
+    $.ajax({
+        url:'/api.php',
+        data: {
+            // tenant id from config object returned from c4w api
+            tenantId:config.data.tenant.tenant_id,
+            action:'get_messages'
+        },
+        success:function(data) {
+            data = typeof(data) === 'string' ? JSON.parse(data) : data;
+
+            var greetingContainer = $("#greeting");
+
+            if(data.status === 'success') {
+                if(!config.data.customer.is_logged) {
+                    greetingContainer.val(data.value.pre);
+                }
+                if(config.data.customer.is_logged) {
+
+
+                    greetingContainer.val(data.value.post);
+                }
+            }
+        }
+        method:'GET'
+    });
+</script>
 
 
 <script type="text/javascript">
