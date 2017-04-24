@@ -204,8 +204,9 @@ if($data != false) {
     function insertMessageVariables(string, object) {
         var arr = string.split(/{|}/);
 
-        arr.map(function(element, index) {
-            return !!object[arr[index]] ? object[arr[index]] : element;
+        arr.map(function(element) {
+            element = !!object[element] ? object[element] : element;
+            return element;
         });
 
         return arr.join('');
