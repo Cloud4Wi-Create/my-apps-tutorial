@@ -138,7 +138,7 @@ function callApi() {
                         postAuthMessageInput.val(data.value.post);
                     }
                 }
-            }
+            },
             method:'GET'
         })
     });
