@@ -204,12 +204,12 @@ if($data != false) {
     function insertMessageVariables(string, object) {
         var arr = string.split(/{|}/);
 
-        arr.map(function(element) {
+        var processedArr = arr.map(function(element) {
             element = !!object[element] ? object[element] : element;
             return element;
         });
 
-        return arr.join('');
+        return processedArr.join('');
     }
 
     /**
