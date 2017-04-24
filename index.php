@@ -149,12 +149,12 @@ if($data != false) {
 
 
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="https://splashportal.cloud4wi.com/myapps/v1/myapps-sdk.js"></script>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
 
 <script>
     var config = <?php echo json_encode($data); ?>;
