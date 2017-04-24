@@ -10,5 +10,5 @@
     "343": {
         "pre":"Hello! Welcome to Coffee Works. Log in for a coffee!",
         "post":"Hello {first_name} {last_name}, thanks for logging in! Please show this to the cashier on duty for a free coffee!"
-    },
+    }
 }
