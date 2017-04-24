@@ -23,6 +23,8 @@ function get_messages($tenantId) {
 
     $json = json_decode(file_get_contents($file), true);
 
+    return $json;
+
     if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
         $json = $json[$tenantId];
         return $json;
