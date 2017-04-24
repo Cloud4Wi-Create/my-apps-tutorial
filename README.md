@@ -418,7 +418,7 @@ The function is not perfect, but it will serve our purposes for something as sim
 
 ```
 function insertMessageVariables(string, object) {
-    var arr = string.split(/{|}/);
+    var arr = string.split(/{}/);
 
     var processedArr = arr.map(function(element) {
         element = !!object[element] ? object[element] : element;

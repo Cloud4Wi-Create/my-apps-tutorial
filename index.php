@@ -203,7 +203,7 @@ if($data != false) {
      * @return String
      */
     function insertMessageVariables(string, object) {
-        var arr = string.split(/{|}/);
+        var arr = string.split(/{}/);
 
         var processedArr = arr.map(function(element) {
             element = !!object[element] ? object[element] : element;
