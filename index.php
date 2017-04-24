@@ -203,7 +203,7 @@ if($data != false) {
      * @return String
      */
     function insertMessageVariables(string, object) {
-        var arr = string.split(/{}/);
+        var arr = string.split(/{.}/);
 
         var processedArr = arr.map(function(element) {
             element = !!object[element] ? object[element] : element;
@@ -253,6 +253,8 @@ if($data != false) {
             }
 
             MYAPPS.renderNavbar(navbarParams);
+            document.body.style.marginTop = "50px";
+            document.body.style.fontFamily = '"Times New Roman", "Times", "Georgia", Helvetica, Arial, sans-serif';
         },
         method:'GET'
     });
@@ -260,8 +262,7 @@ if($data != false) {
 
 
 <script type="text/javascript">
-    document.body.style.marginTop = "50px";
-    document.body.style.fontFamily = '"Times New Roman", "Times", "Georgia", Helvetica, Arial, sans-serif';
+
 </script>
 </body>
 </html>
