@@ -23,15 +23,18 @@ capabilities that our "My Apps" feature has to offer.
 * An account on [developers.cloud4wi.com](https://developers.cloud4wi.com)
 * A tenant account on [volare.cloud4wi.com](https://volare.cloud4wi.com)
 * A hosted domain to link to from our [Welcome Portal](https://splashportal.cloud4wi.com)
-    * One page for configuration from our [Control Panel](https://volare.cloud4wi.com)
+    * One page for configuration from our [Admin Panel](https://volare.cloud4wi.com)
     * The page that your end-user will be directed to from the [Welcome Portal](https://splashportal.cloud4wi.com)
     
 ### The App
-Our app will be rather simple - first, we will trigger it in the pre-authentication phase
-and show a message welcoming the end-user: "Welcome! Complete the log-in process and get a 
-free coffee!". Then we are going to set another trigger for when the end-user
-is completely authenticated: "Thank you for logging in, {name}, present this 
-to the cashier for your free cup of coffee!"
+Our app will be fairly simple, with two steps:
+ * First, we will trigger the app in the pre-authentication phase and show a message welcoming 
+ the end-user: "Welcome! Complete the log-in process and get a free coffee!". 
+ * Then, we are going to set another trigger for when the end-user is completely authenticated:
+  "Thank you for logging in, {name}, present this to the cashier for your free cup of coffee!"
+  
+Our app will include a mixture of PHP for server-side processing, JavaScript for interactive
+API calls, and of course, HTML/CSS to make it appealing.
 
 
 
@@ -45,14 +48,14 @@ Now that you have everything you need to integrate with My Apps, let's get start
    you will want to refer back to it when going through your apps.
    * **App Management**
        * **App Visibility** - Allows Venue owners to configure their respective venues, or only allow
-       Tenant level users to configure the app.
+       Company level users to configure the app.
            * I set this to "Tenant" for the sake of the KISS principle (Keep it Stupid Simple). 
            This can always be changed later as your app evolves.
        * **Enable Pre-Authentication Mode** - This allows the app to be triggered before it is
         authenticated by the wi-fi hotspot.
-           * Please set this to 
+           * Please enable this, as we will need it enabled for the example.
    * **App Endpoints**
-        * **Base URL** - This is the base domain that your app is hosted on. Ex: https://google.com
+        * **Base URL** - This is the base domain that your app is hosted on. Ex: https://cloud4wi.com
         * **App Bar Page** - This will display in the app bar if the app is enabled in the Welcome Portal.
         * **Access Journey Page** - This page is meant for when the app is triggered during the Access Journey of the end-user.
         * **Admin Panel Settings Page** - This page will be your configuration page to be 
@@ -64,7 +67,7 @@ Now that you have everything you need to integrate with My Apps, let's get start
      Make sure to keep the _App ID_, as you will need it in the next step.
    
 #### 2. Import your published app into your "My Apps" section on Volare
-   * Go to [volare.cloud4wi.com](https://volare.cloud4wi.com) and log in to your Tenant account.
+   * Go to [volare.cloud4wi.com](https://volare.cloud4wi.com) and log in to your Company account.
    * Click on the "Apps" link inside the "Manage" section of the sidebar.
    * Click on the "Add" button in the top right of the page
    * Enter the _App ID_ that you saved from when you published the app in the previous step, and click "Check".
@@ -108,7 +111,7 @@ data in a JavaScript variable:
  
 `var config = <?php echo json_encode(callApi()); ?>;`
 
-So when you call the API from the Admin Panel Settings Page from the Tenant level, 
+So when you call the API from the Admin Panel Settings Page from the Company level, 
 we return an object:
 
 ```
@@ -134,8 +137,8 @@ From the Venue level, you will get an object like this:
 }
 ```
 
-With this, you can take the `tenantId` and store configurations based on that,
-or the `wifiareaId` if you are allowing the Venue owners to configure the app
+With this, you can take the Company ID: `tenantId` and store configurations based on that,
+or the Venue ID: `wifiareaId` if you are allowing the Venue owners to configure the app
 by themselves.
 
 So, going along with what we talked about in the beginning, let's create a form that has two inputs:
@@ -162,7 +165,7 @@ Now that we have a form, we will handle the data when it is submitted and store 
 an AJAX call to an API, consisting of three crucial points of data:
 * Pre-authentication message
 * Post-authentication message
-* Tenant ID
+* Company ID
 
 On line 161, there is a jQuery event listener waiting for the form submit. Above that are comments that 
 explain why. Here is the AJAX call:
@@ -199,7 +202,7 @@ $.ajax({
 
 
 Now, please note that this is a call to _your_ third-party API, in order to save
-the pre-authentication and post-authentication messages, along with the Tenant ID
+the pre-authentication and post-authentication messages, along with the Company ID
 so that you can create your custom logic on your app.
 
 **TIP**:
@@ -251,7 +254,7 @@ $.ajax({
 ```
 
 Pretty straight-forward, all we are doing here is checking to see if there are messages
-already stored for this Tenant, and if there are, we populate the input fields with them.
+already stored for this Company, and if there are, we populate the input fields with them.
 Done and done. Let's move on.
 
 #### 4. Setting the App to the Access Journey

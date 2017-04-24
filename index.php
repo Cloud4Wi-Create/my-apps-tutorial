@@ -107,13 +107,6 @@ $data = callApi();
 if($data != false) {
     $salutation = setSalutation($data);
 }
-$content = '<span>Hello World</span>!';
-
-$gotUserData = $salutation || $firstName || $lastName;
-
-if ($gotUserData) {
-    $content = "<span>Hello world</span>, $salutation $firstName $lastName!";
-}
 ?>
 
 <script>
@@ -167,6 +160,37 @@ if ($gotUserData) {
     var config = <?php echo json_encode($data); ?>;
 
     /**
+     * "customer":{
+
+            "lang":"eng",
+
+            "is_logged":true,
+
+            "id":"rlC.6yTePhzYg",
+
+            "first_name":"John",
+
+            "last_name":"Doe",
+
+            "username":"706B5C1D",
+
+            "gender":"",
+
+            "birth_date":"0000-00-00 00:00:00",
+
+            "phone":"",
+
+            "phone_prefix":"",
+
+            "email":"john.doe@cloud4wi.com",
+
+            "mac_address":[]
+
+        },
+
+     */
+
+    /**
      * Takes a string and inserts variables inbetween the brackets
      * @solution
      * Split the string with regex to create individual
@@ -174,16 +198,18 @@ if ($gotUserData) {
      * @param string: String
      * @param object: Object
      *
-     *
+     * @return String
      */
     function insertMessageVariables(string, object) {
         var arr = string.split(/{|}/);
-        console.log(arr);
+
+//        string.replace(/{|}/, function(match) {
+//            return !!object[match] ? object[match] :
+//        });
 
         for(var x = 0; x < arr.length; x++) {
             if(!!object[arr[x]]) {
                 arr[x] = object[arr[x]];
-                console.log(arr);
             }
         }
         return arr.join('');
@@ -208,15 +234,16 @@ if ($gotUserData) {
             data = typeof(data) === 'string' ? JSON.parse(data) : data;
 
             var greetingContainer = $("#greeting");
+            var message; // just in case we have to change this in the if statement
 
             if(data.status === 'success') {
                 if(!config.data.customer.is_logged) {
-                    greetingContainer.val(data.value.pre);
+                    greetingContainer.text(data.value.pre);
                 }
                 if(config.data.customer.is_logged) {
-
-
-                    greetingContainer.val(data.value.post);
+                    // Process the message to find the brackets and replace them with variables
+                    message = insertMessageVariables(data.value.post, config.data.customer);
+                    greetingContainer.text(message);
                 }
             }
         }
