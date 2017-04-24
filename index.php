@@ -158,6 +158,7 @@ if($data != false) {
 
 <script>
     var config = <?php echo json_encode($data); ?>;
+    config = typeof(config) === 'string' ? JSON.parse(config) : config;
 
     /**
      * "customer":{
