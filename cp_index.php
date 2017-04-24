@@ -55,7 +55,7 @@ function callApi() {
 
 <script type="text/javascript">
     // For use in JavaScript
-    var config = <?php echo json_encode(callApi()); ?>);
+    var config = <?php echo json_encode(callApi()); ?>;
 </script>
 
 <!DOCTYPE html>
