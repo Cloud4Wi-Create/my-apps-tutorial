@@ -1,6 +1,6 @@
 {
     "64": {
         "pre":"Hello, welcome to the shop. Log in for a free coffee!",
-        "post":"Hello {first_name}, welcome to the shop. Please show this to your cashier for a free coffee!"
+        "post":"Hello {first_name} {last_name}, welcome to the shop. Please show this to your cashier for a free coffee!"
     }
 }

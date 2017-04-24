@@ -204,10 +204,6 @@ if($data != false) {
     function insertMessageVariables(string, object) {
         var arr = string.split(/{|}/);
 
-//        string.replace(/{|}/, function(match) {
-//            return !!object[match] ? object[match] :
-//        });
-
         for(var x = 0; x < arr.length; x++) {
             if(!!object[arr[x]]) {
                 arr[x] = object[arr[x]];
