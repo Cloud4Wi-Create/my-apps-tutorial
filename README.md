@@ -83,7 +83,7 @@ In this page, you can call our My Apps API in order to get information on the us
 For both the Admin Panel Settings Page and the Customer Facing page, you can call the same
 API but we will return information based on where you are calling from.
 
-We import an iFrame into our Control Panel and inject a variable into the URL named "sk".
+We import an iFrame into our Admin Panel and inject a variable into the URL named "sk".
 You will have to extract that from the URL, as that is the session code we use to authenticate 
 and identify your app. Here is a quick way to do it in PHP:
 
@@ -216,7 +216,7 @@ coffee!"
 But for the second message, we are going to have conditional data from the API for the
 name, which means that we will have to insert something to specify where the "name" 
 variable is going to go. Luckily, we have thought of this in a clever (i.e. completely 
-standard) way. Viola:
+standard) way. Voila:
 
 `Welcome, {first_name} {last_name}, thank you for signing in! Please present this to your cashier
 to get a free cup of coffee!`
