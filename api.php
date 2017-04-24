@@ -40,12 +40,12 @@ function get_tenant($tenantId) {
 
 switch ($_GET["action"]) {
     case "get_messages":
-        $value = get_messages();
+        $value = get_messages($_GET['tenantId']);
         $status = 'success';
         break;
     case "set_messages":
         if(isset($_GET["post"]) && isset($_GET["pre"])) {
-            $value = set_messages($_GET["pre"], $_GET["post"]);
+            $value = set_messages($_GET["pre"], $_GET["post"], $_GET['tenantId']);
             $status = 'success';
         } else {
             $value = "Missing argument";
