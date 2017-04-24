@@ -246,7 +246,7 @@ if($data != false) {
                     greetingContainer.text(message);
                 }
             }
-        }
+        },
         method:'GET'
     });
 </script>
