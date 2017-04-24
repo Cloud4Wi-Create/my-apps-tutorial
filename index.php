@@ -237,8 +237,7 @@ if($data != false) {
             var navbarParams = {
                 fontColor:'black',
                 backgroundColor:'white',
-                apn:'Coffee Works',
-                nextBtn:5
+                apn:'Coffee Works'
             };
 
             if(data.status === 'success') {
@@ -247,7 +246,6 @@ if($data != false) {
                     greetingContainer.text(data.value.pre);
                 }
                 if(config.data.customer.is_logged) {
-                    navbarParams.nextBtn = 1;
                     // Process the message to find the brackets and replace them with variables
                     message = insertMessageVariables(data.value.post, config.data.customer);
                     greetingContainer.text(message);

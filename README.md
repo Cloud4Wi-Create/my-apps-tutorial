@@ -21,7 +21,8 @@ capabilities that our "My Apps" feature has to offer.
  ways to leverage Cloud4Wi and its vast capabilities.
 
 ### Prerequisites
-* An account on [developers.cloud4wi.com](https://developers.cloud4wi.com)
+* An account on [developers.cloud4wi.com](https://developers.cloud4wi.com).  This will have to be approved
+by Cloud4Wi.
 * A tenant account on [volare.cloud4wi.com](https://volare.cloud4wi.com)
 * A hosted domain to link to from our [Welcome Portal](https://splashportal.cloud4wi.com)
     * One page for configuration from our [Admin Panel](https://volare.cloud4wi.com)
@@ -445,4 +446,59 @@ So, now that we have the functionality for the end-user all finished up, let's m
  last crucial part of the application, the one that will bring together each step: The Nav-Bar.
  
 #### 6. Working with the Navbar
+Last but not least, we have provided a navbar with some exposed methods to help keep your 
+end-user along the correct path in the Access Journey.  So without further ado, let's include the
+JavaScript file in our page:
 
+```
+<script src="https://splashportal.cloud4wi.com/myapps/v1/myapps-sdk.js"></script>
+```
+
+Once this is done, we can put this line at the end of the success function in our API call:
+
+```
+MYAPPS.renderNavbar();
+```
+
+This is a default call to render the navbar.  It will use default styles and no title, and
+it will automatically show a "next" button that the end-user can click and move to the next
+step in the Access Journey.  We can choose to delay this button for a certain amount of 
+seconds, or we can automatically show it, or not show it at all.  For this app's purposes,
+the best idea would be to render it after they have read the message in the pre-authentication
+phase and then show it automatically in the post-authentication phase. So since we already
+have some logic to check whether or not the user is logged in, let's just add it to those blocks
+of code:
+
+```
+var navbarParams = {
+    fontColor:'black',
+    backgroundColor:'white',
+    apn:'Coffee Works' 
+};
+
+if(data.status === 'success') {
+    if(!config.data.customer.is_logged) {
+        navbarParams.nextBtn = 5;
+        greetingContainer.text(data.value.pre);
+    }
+    if(config.data.customer.is_logged) {
+        // Process the message to find the brackets and replace them with variables
+        message = insertMessageVariables(data.value.post, config.data.customer);
+        greetingContainer.text(message);
+    }
+}
+
+MYAPPS.renderNavbar(navbarParams);
+```
+
+As you can see, we declared a variable that changes the style of the navbar, and then set this:
+`navbarParams.nextBtn = 5`.
+
+This sets the "next" button to show after 5 seconds, giving our end-user an ample amount of time
+to read the message that we want to convey before moving on.
+
+In the next if statement, we did not declare the `nextBtn` variable, and that is on purpose.
+The default value of this is `true`, which automatically renders the "next" button.
+
+There is more to the Navbar that is not mentioned in this tutorial, and if you would like to 
+read more about the capabilities of the navbar, go to [link here].
