@@ -158,6 +158,7 @@ if($data != false) {
 
 <script>
     var config = <?php echo json_encode($data); ?>;
+
     config = typeof(config) === 'string' ? JSON.parse(config) : config;
 
     /**
@@ -233,16 +234,27 @@ if($data != false) {
             var greetingContainer = $("#greeting");
             var message; // just in case we have to change this in the if statement
 
+            var navbarParams = {
+                fontColor:'black',
+                backgroundColor:'white',
+                apn:'Coffee Works',
+                nextBtn:5
+            };
+
             if(data.status === 'success') {
                 if(!config.data.customer.is_logged) {
+                    navbarParams.nextBtn = 5;
                     greetingContainer.text(data.value.pre);
                 }
                 if(config.data.customer.is_logged) {
+                    navbarParams.nextBtn = 1;
                     // Process the message to find the brackets and replace them with variables
                     message = insertMessageVariables(data.value.post, config.data.customer);
                     greetingContainer.text(message);
                 }
             }
+
+            MYAPPS.renderNavbar(navbarParams);
         },
         method:'GET'
     });
@@ -250,14 +262,6 @@ if($data != false) {
 
 
 <script type="text/javascript">
-    var params = {
-        fontColor:'black',
-        backgroundColor:'white',
-        apn:'Coffee Works',
-        nextBtn:5
-    };
-
-    MYAPPS.renderNavbar(params);
     document.body.style.marginTop = "50px";
     document.body.style.fontFamily = '"Times New Roman", "Times", "Georgia", Helvetica, Arial, sans-serif';
 </script>
