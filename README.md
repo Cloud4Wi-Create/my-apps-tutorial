@@ -12,6 +12,7 @@ Tutorial for "My Apps" for Volare release 6.5
     4. [Setting the App to the Access Journey](#4-setting-the-app-to-the-access-journey)
     5. [Creating the End-User Experience](#5-creating-the-end-user-experience)
     6. [Working with the Navbar](#6-working-with-the-navbar)
+* [Extra Points to Note](#extra-points-to-note)
     
 
 ### Purpose
@@ -502,3 +503,8 @@ The default value of this is `true`, which automatically renders the "next" butt
 
 There is more to the Navbar that is not mentioned in this tutorial, and if you would like to 
 read more about the capabilities of the navbar, go to [link here].
+
+### Extra Points to Note
+* If you are using external resources for the pre-authentication phase (jQuery CDN, your app domain, 
+etc.) then make sure you are also including them in your walled garden.  Otherwise it will be 
+blocked and your app will not work.
