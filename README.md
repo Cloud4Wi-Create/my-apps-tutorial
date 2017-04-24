@@ -11,6 +11,7 @@ Tutorial for "My Apps" for Volare release 6.5
     3. [Creating the Admin Panel Settings Page](#3-creating-the-admin-panel-settings-page)
     4. [Setting the App to the Access Journey](#4-setting-the-app-to-the-access-journey)
     5. [Creating the End-User Experience](#5-creating-the-end-user-experience)
+    6. [Working with the Navbar](#6-working-with-the-navbar)
     
 
 ### Purpose
@@ -31,7 +32,7 @@ Our app will be fairly simple, with two steps:
  * First, we will trigger the app in the pre-authentication phase and show a message welcoming 
  the end-user: "Welcome! Complete the log-in process and get a free coffee!". 
  * Then, we are going to set another trigger for when the end-user is completely authenticated:
-  "Thank you for logging in, {name}, present this to the cashier for your free cup of coffee!"
+  "Thank you for logging in, {first_name} {last_name}, present this to the cashier for your free cup of coffee!"
   
 Our app will include a mixture of PHP for server-side processing, JavaScript for interactive
 API calls, and of course, HTML/CSS to make it appealing.
@@ -154,7 +155,7 @@ Here it is, in all its glory:
     </div>
     <div class="form-group">
         <label for="post_auth_message">Post Auth Message</label>
-        <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {name} to the coffee shop!">
+        <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {first_name} {last_name} to the coffee shop!">
     </div>
     <p class="bg-success hide" id="api_success_message">Success</p>
     <p class="bg-danger hide" id="api_failure_message">Failure</p>
@@ -216,7 +217,7 @@ name, which means that we will have to insert something to specify where the "na
 variable is going to go. Luckily, we have thought of this in a clever (i.e. completely 
 standard) way. Viola:
 
-`Welcome, {name}, thank you for signing in! Please present this to your cashier
+`Welcome, {first_name} {last_name}, thank you for signing in! Please present this to your cashier
 to get a free cup of coffee!`
 
 With the brackets, it provides an easy way to split the string and insert variables.
@@ -326,6 +327,122 @@ bit different:
 Now, there are a few points to note here:
 * In the pre-authentication phase, the customer object has almost no information.  In the 
  post-authentication phase, it will be populated with more information that we can use.
-
-
  
+If you test this with a logged in customer, the object will look more like this:
+
+```
+"status": "success",
+"data": { 
+    "customer":{
+        "lang":"eng",
+        "is_logged":true,
+        "id":"rlC.6yTePhzYg",
+        "first_name":"John",
+        "last_name":"Doe",
+        "username":"706B5C1D",
+        "gender":"",
+        "birth_date":"0000-00-00 00:00:00",
+        "phone":"",
+        "phone_prefix":"",
+        "email":"john.doe@cloud4wi.com",
+        "mac_address":[]
+    },
+    "hotspot: {
+        "city": "Livorno, Italy",
+        "id": "9067",
+        "identifier": "685112345D_illiade",
+        "latitude": "45.960782503827",
+        "longitude": "12.091283106750",
+        "mac_address": "685112345D",
+        "name": "Odissea",
+        "state": "Livorno",
+        "tag": "hotspot",
+        "zip": "Livorno",
+    },
+    "tenant": {
+        "name": "Taylor's Tenant",
+        "read_only": false,
+        "tenant_id": "1001"
+    },
+    "wifiarea": {
+        "name": "Livorno Venue",
+        "wifiarea_id": "ae092a5b3e283c8373ke2bf18cde0005"
+    }
+}
+```
+So, the only two variables that we have for both customer states are `is_logged` and `lang`, short for 
+language.  We will use the `is_logged` variable to check for pre-authentication and post-authentication
+customer states.
+ 
+So, naturally since this will be the page for both pre-authentication and post-authentication, 
+we will want to put some logic in to determine which stage we are in. I put this API call in the 
+bottom of the file, where the API calls were in the cp_index page:
+
+```
+$.ajax({
+    url:'/api.php',
+    data: {
+        // tenant id from config object returned from c4w api
+        tenantId:config.data.tenant.tenant_id,
+        action:'get_messages'
+    },
+    success:function(data) {
+        data = typeof(data) === 'string' ? JSON.parse(data) : data;
+
+        var greetingContainer = $("#greeting");
+        var message; // just in case we have to change this in the if statement
+
+        if(data.status === 'success') {
+            if(!config.data.customer.is_logged) {
+                greetingContainer.text(data.value.pre);
+            }
+            if(config.data.customer.is_logged) {
+                // Process the message to find the brackets and replace them with variables
+                message = insertMessageVariables(data.value.post, config.data.customer);
+                greetingContainer.text(message);
+            }
+        }
+    },
+    method:'GET'
+});
+```
+What you will notice with this API call is that we are getting the messages for the correct
+Company: `tenantId`.  Then, we check to make sure the API call is a 
+success and if that is true, we display the message based on whether the customer is logged in
+or not (pre-authentication or post-authentication).
+
+After a closer look, you will notice that there is an `insertMessageVariables` function call that 
+we have not discussed yet.  This is to skim the string and find variables inside brackets.
+
+The function is not perfect, but it will serve our purposes for something as simple as this:
+
+```
+function insertMessageVariables(string, object) {
+    var arr = string.split(/{|}/);
+
+    var processedArr = arr.map(function(element) {
+        element = !!object[element] ? object[element] : element;
+        return element;
+    });
+
+    return processedArr.join('');
+}
+```
+Should be pretty straight forward - this would be how we merge the data from Cloud4Wi and the
+data that we have stored already (the pre and post-authentication messages).
+
+Now, I made it as simple as possible and just put the customer object into the arguments
+for the function and made the variable names in my string match the customer object.
+You may want to elaborate on this, possibly creating a new object or concatenating the name
+together first before passing it into the function, to make for more comprehensive functionality.
+But, of course, that's up to you.
+
+**Disclaimer**: Make sure that if you take variables from the customer object, 
+you require those variables when they log-in/sign-up.  Otherwise the Cloud4Wi customer object
+being returned from the API will _not_ provide all of the data that you need.
+ 
+So, now that we have the functionality for the end-user all finished up, let's move on to one
+ last crucial part of the application, the one that will bring together each step: The Nav-Bar.
+ 
+#### 6. Working with the Navbar
+
