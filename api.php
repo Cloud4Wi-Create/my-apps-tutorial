@@ -7,11 +7,11 @@ function set_messages($pre, $post, $tenantId) {
     $json = json_decode(file_get_contents($file, true));
 
     if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
-        $json[] = array(
-          $tenantId => $messages
-        );
-    } else {
         $json[$tenantId] = $messages;
+    } else {
+        $json[] = array(
+            $tenantId => $messages
+        );
     }
 
     file_put_contents($file, json_encode($json));
