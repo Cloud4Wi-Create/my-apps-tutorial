@@ -1,14 +1,15 @@
 <?php
 
-define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL'));
-define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL'));
-define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL'));
+/**
+ * These defined constants pull from a config file on the server.
+ * If you don't have a config file, feel free to replace the "getenv"
+ * method with the commented URLs next to them
+ */
+define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL')); // "https://splashportal.cloud4wi.com"
+define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL')); // "https://volare.cloud4wi.com"
+define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL')); // "/controlpanel/1.0/bridge/sessions/"
 
 $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
-
-$salutation = NULL;
-$firstName = NULL;
-$lastName = NULL;
 
 ?>
 
@@ -62,51 +63,9 @@ function callApi() {
 ?>
 
 <?php
-/**
- * This function is where the magic will happen -
- * It will take all the data that we have an process it,
- * and based on certain conditionals it will produce a
- * string for the end-customer
- *
- * First, we will check for a cookie in the browser
- * If it's there, we will check how many times the user has been here
- *
- * Then, we will provide a coupon based on whether or not we offered
- *
- * If there is no cookie, then we just say "Hello" with a description
- * of the coffee shop, and with their name welcoming them for the first time
- *
- * @param $data
- * @return String;
- */
-function setSalutation($data) {
-    $user = $data['user'];
-
-    if (isset($user['first_name']) && !empty($user['first_name'])) {
-        $firstName = $user['first_name'];
-    }
-
-    if (isset($user['last_name']) && !empty($user['last_name'])) {
-        $lastName = $user['last_name'];
-    }
-
-    if (isset($user['gender']) && !empty($user['gender'])) {
-        if (in_array($user['gender'], array('male', 'm'))) {
-            $salutation = "Mr.";
-        } elseif (in_array($user['gender'], array('female', 'f'))) {
-            $salutation = "Ms.";
-        }
-    }
-}
-
-?>
-
-<?php
 
 $data = callApi();
-if($data != false) {
-    $salutation = setSalutation($data);
-}
+
 ?>
 
 <script>
@@ -119,11 +78,10 @@ if($data != false) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Coffee Works</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="lib/css/bootstrap.css"  crossorigin="anonymous">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="lib/css/bootstrap-theme.css"  crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css"/>
-
 
 </head>
 <body>
@@ -139,20 +97,19 @@ if($data != false) {
                 <img class="img-responsive img-border img-left" src="img/DeathtoStock_Wired1.jpg" alt="" height="100" width="100">
                 <hr class="visible-xs">
                 <p id="greeting">
-
+                    <!-- Where our message to the customer will go -->
                 </p>
             </div>
         </div>
     </div>
-
 </div>
 
 
 
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
+<script src="lib/js/jquery-3.2.1.js" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
+<script src="lib/js/bootstrap.js" crossorigin="anonymous"></script>
 <script src="https://splashportal.cloud4wi.com/myapps/v1/myapps-sdk.js"></script>
 
 
@@ -163,33 +120,19 @@ if($data != false) {
 
     /**
      * "customer":{
-
-            "lang":"eng",
-
-            "is_logged":true,
-
-            "id":"rlC.6yTePhzYg",
-
-            "first_name":"John",
-
-            "last_name":"Doe",
-
-            "username":"706B5C1D",
-
-            "gender":"",
-
-            "birth_date":"0000-00-00 00:00:00",
-
-            "phone":"",
-
-            "phone_prefix":"",
-
-            "email":"john.doe@cloud4wi.com",
-
+            "lang":String,
+            "is_logged":Boolean,
+            "id":String,
+            "first_name":String,
+            "last_name":String,
+            "username":String,
+            "gender":String,
+            "birth_date":Date "0000-00-00 00:00:00",
+            "phone":String,
+            "phone_prefix":String,
+            "email":String,
             "mac_address":[]
-
-        },
-
+        }
      */
 
     /**
@@ -258,11 +201,6 @@ if($data != false) {
         },
         method:'GET'
     });
-</script>
-
-
-<script type="text/javascript">
-
 </script>
 </body>
 </html>

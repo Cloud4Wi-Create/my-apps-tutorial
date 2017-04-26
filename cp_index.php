@@ -1,8 +1,13 @@
 <?php
 
-define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL'));
-define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL'));
-define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL'));
+/**
+ * These defined constants pull from a config file on the server.
+ * If you don't have a config file, feel free to replace the "getenv"
+ * method with the commented URLs next to them
+ */
+define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL')); // "https://splashportal.cloud4wi.com"
+define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL')); // "https://volare.cloud4wi.com"
+define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL')); // "/controlpanel/1.0/bridge/sessions/"
 
 $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
 
@@ -65,9 +70,9 @@ function callApi() {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Coffee Works</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="lib/css/bootstrap.css"  crossorigin="anonymous">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="lib/css/bootstrap-theme.css"  crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
@@ -99,10 +104,10 @@ function callApi() {
 </div>
 
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
+<script src="lib/js/jquery-3.2.1.js" crossorigin="anonymous"></script>
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
+<script src="lib/js/bootstrap.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     /**
@@ -190,7 +195,7 @@ function callApi() {
                     apiFailureMessage.removeClass('hide');
                 }
             },
-            error:function(data) {
+            error:function() {
                 apiFailureMessage.removeClass('hide');
             },
             method:'GET'
