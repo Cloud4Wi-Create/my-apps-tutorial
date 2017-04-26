@@ -40,9 +40,8 @@ function callApi() {
             CURLOPT_URL => $url
         ));
         $result = curl_exec($curl);
-        $session = json_encode($result, true);
+        $session = json_decode($result, true);
 
-        return $result;
 
         // Create customer variable
         $c4w = array();
