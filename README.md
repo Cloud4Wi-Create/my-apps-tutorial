@@ -393,14 +393,20 @@ $.ajax({
 
         var greetingContainer = $("#greeting");
         var message; // just in case we have to change this in the if statement
+        var customer; // just in case we have to set the values for the end-user
 
         if(data.status === 'success') {
             if(!config.data.customer.is_logged) {
                 greetingContainer.text(data.value.pre);
             }
-            if(config.data.customer.is_logged) {
+            if(config.customer.is_logged) {
+                // check the values of the Cloud4Wi customer object BEFORE sending to function insertMessageVariables
+                customer = {
+                   first_name: (config.customer.first_name === 'None') ? "" : config.customer.first_name,
+                   last_name: (config.customer.last_name === 'None') ? "" : config.customer.last_name
+                };
                 // Process the message to find the brackets and replace them with variables
-                message = insertMessageVariables(data.value.post, config.data.customer);
+                message = insertMessageVariables(data.value.post, customer);
                 greetingContainer.text(message);
             }
         }
@@ -433,11 +439,17 @@ function insertMessageVariables(string, object) {
 Should be pretty straight forward - this would be how we merge the data from Cloud4Wi and the
 data that we have stored already (the pre and post-authentication messages).
 
-Now, I made it as simple as possible and just put the customer object into the arguments
-for the function and made the variable names in my string match the customer object.
-You may want to elaborate on this, possibly creating a new object or concatenating the name
-together first before passing it into the function, to make for more comprehensive functionality.
-But, of course, that's up to you.
+Now, this is a rather simple approach by just creating a new customer object and populating it 
+based on what is in the data returned. Then we pass
+to the `insertMessageVariables` function and made the variable names in my string match the customer object.
+You may want to elaborate on this, formatting the name differently or creating different variables
+for the object before passing it into the function, to make for more comprehensive and user-friendly 
+functionality. But, of course, that's up to you.
+
+We would strongly suggest checking values and formatting them in a nice way before 
+displaying them, as directly displaying unformatted information from an API that is not in your 
+control is _bad practice_.  Check the values, format them however you need, and 
+ then display them in a user-friendly way.
 
 **Disclaimer**: Make sure that if you take variables from the customer object, 
 you require those variables when they log-in/sign-up.  Otherwise the Cloud4Wi customer object
@@ -482,9 +494,14 @@ if(data.status === 'success') {
         navbarParams.nextBtn = 5;
         greetingContainer.text(data.value.pre);
     }
-    if(config.data.customer.is_logged) {
+    if(config.customer.is_logged) {
+        // check the values of the Cloud4Wi customer object BEFORE sending to function insertMessageVariables
+        customer = {
+           first_name: (config.customer.first_name === 'None') ? "" : config.customer.first_name,
+           last_name: (config.customer.last_name === 'None') ? "" : config.customer.last_name
+        };
         // Process the message to find the brackets and replace them with variables
-        message = insertMessageVariables(data.value.post, config.data.customer);
+        message = insertMessageVariables(data.value.post, customer);
         greetingContainer.text(message);
     }
 }
@@ -501,10 +518,15 @@ to read the message that we want to convey before moving on.
 In the next if statement, we did not declare the `nextBtn` variable, and that is on purpose.
 The default value of this is `true`, which automatically renders the "next" button.
 
-There is more to the Navbar that is not mentioned in this tutorial, and if you would like to 
-read more about the capabilities of the navbar, go to [link here].
+There is more to the Navbar that is not mentioned in this tutorial, and we encourage you to use 
+it to your advantage.
 
 ### Extra Points to Note
 * If you are using external resources for the pre-authentication phase (jQuery CDN, your app domain, 
 etc.) then make sure you are also including them in your walled garden.  Otherwise it will be 
 blocked and your app will not work.
+* This has been mentioned before but it bears repeating: The customer object that is returned 
+from our API is not completely ready for display when returned.  For example, when there is no 
+last name returned the value says "None". You obviously would not want to display "Hello, Taylor 
+None!".  Same with gender, date, etc. These are all values that should be processed before 
+displaying to the end user.

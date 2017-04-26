@@ -174,6 +174,7 @@ $data = callApi();
 
             var greetingContainer = $("#greeting");
             var message; // just in case we have to change this in the if statement
+            var customer; // just in case we have to set the values for the end-user
 
             var navbarParams = {
                 fontColor:'black',
@@ -187,8 +188,13 @@ $data = callApi();
                     greetingContainer.text(data.value.pre);
                 }
                 if(config.customer.is_logged) {
+                    // check the values of the Cloud4Wi customer object BEFORE sending to function insertMessageVariables
+                    customer = {
+                       first_name: (config.customer.first_name === 'None') ? "" : config.customer.first_name,
+                       last_name: (config.customer.last_name === 'None') ? "" : config.customer.last_name
+                    };
                     // Process the message to find the brackets and replace them with variables
-                    message = insertMessageVariables(data.value.post, config.customer);
+                    message = insertMessageVariables(data.value.post, customer);
                     greetingContainer.text(message);
                 }
             }
