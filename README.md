@@ -510,7 +510,7 @@ MYAPPS.renderNavbar(navbarParams);
 ```
 
 As you can see, we declared a variable that changes the style of the navbar, and then set this:
-`navbarParams.nextBtn = 5`.
+`navbarParams.nextBtn = 5`.  
 
 This sets the "next" button to show after 5 seconds, giving our end-user an ample amount of time
 to read the message that we want to convey before moving on.
