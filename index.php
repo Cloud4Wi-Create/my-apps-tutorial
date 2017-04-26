@@ -40,10 +40,7 @@ function callApi() {
             CURLOPT_URL => $url
         ));
         $result = curl_exec($curl);
-        return $result;
         $session = json_encode($result, true);
-
-        return $session;
 
         // Create customer variable
         $c4w = array();
@@ -168,7 +165,7 @@ $data = callApi();
         url:'/api.php',
         data: {
             // tenant id from config object returned from c4w api
-            tenantId:config.data.tenant.tenant_id,
+            tenantId:config.tenant.tenant_id,
             action:'get_messages'
         },
         success:function(data) {
@@ -184,13 +181,13 @@ $data = callApi();
             };
 
             if(data.status === 'success') {
-                if(!config.data.customer.is_logged) {
+                if(!config.customer.is_logged) {
                     navbarParams.nextBtn = 5;
                     greetingContainer.text(data.value.pre);
                 }
-                if(config.data.customer.is_logged) {
+                if(config.customer.is_logged) {
                     // Process the message to find the brackets and replace them with variables
-                    message = insertMessageVariables(data.value.post, config.data.customer);
+                    message = insertMessageVariables(data.value.post, config.customer);
                     greetingContainer.text(message);
                 }
             }
