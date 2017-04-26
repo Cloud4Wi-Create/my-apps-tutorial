@@ -1,10 +1,16 @@
 <?php
+define('DATA_FILE', getenv('DATA_ENV_PATH'));
+
 function set_messages($pre, $post, $tenantId) {
-    $file = "messages.txt";
+    $file = DATA_FILE;
 
     $messages = array("pre" => $pre, "post" => $post);
 
-    $json = json_decode(file_get_contents($file), true);
+    if(file_exists($file)) {
+        $json = json_decode(file_get_contents($file), true);
+    } else {
+        $json = array();
+    }
 
     $json[$tenantId] = $messages;
 
@@ -14,20 +20,22 @@ function set_messages($pre, $post, $tenantId) {
 }
 
 function get_messages($tenantId) {
-    $file = "messages.txt";
+    $file = DATA_FILE;
 
-    $json = json_decode(file_get_contents($file), true);
+    if(file_exists($file)) {
+        $json = json_decode(file_get_contents($file), true);
 
-    if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
-        $json = $json[$tenantId];
-        return $json;
+        if(isset($json[$tenantId]) && !empty($json[$tenantId])) {
+            $json = $json[$tenantId];
+            return $json;
+        }
     }
 
     return "tenant not found";
 }
 
 function get_tenant($tenantId) {
-    $file = "messages.txt";
+    $file = DATA_FILE;
 
     $json = json_decode(file_get_contents($file), true);
 
