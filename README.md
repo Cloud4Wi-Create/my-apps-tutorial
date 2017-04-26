@@ -94,7 +94,7 @@ And then just concatenate it on to the end of the Volare My Apps API:
  
 `$url = 'https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions/' . $sk;`
  
-Next, make a function in PHP to call to the Cloud4Wi API. This is located in our /cp_index.php file 
+Next, make a function in PHP (or your favorite language) to call to the Volare API. This is located in our /cp_index.php file 
 starting at line 22 inside the function named: `function callApi`
 
 ```
@@ -436,7 +436,7 @@ function insertMessageVariables(string, object) {
     return processedArr.join('');
 }
 ```
-Should be pretty straight forward - this would be how we merge the data from Cloud4Wi and the
+Should be pretty straight forward - this would be how we merge the data from Volare and the
 data that we have stored already (the pre and post-authentication messages).
 
 Now, this is a rather simple approach by just creating a new customer object and populating it 
