@@ -116,8 +116,6 @@ $data = callApi();
 
     config = typeof(config) === 'string' ? JSON.parse(config) : config;
 
-    console.log(config);
-
     /**
      * "customer":{
             "lang":String,
