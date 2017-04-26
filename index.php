@@ -147,7 +147,7 @@ $data = callApi();
         var arr = string.split(/{|}/);
 
         var processedArr = arr.map(function(element) {
-            element = !!object[element] ? object[element] : element;
+            element = !!object[element] ? object[element] : "";
             return element;
         });
 
