@@ -4,7 +4,7 @@ function set_messages($pre, $post, $tenantId) {
 
     $messages = array("pre" => $pre, "post" => $post);
 
-    $json = json_decode(file_get_contents($file, true));
+    $json = json_decode(file_get_contents($file), true);
 
     $json[$tenantId] = $messages;
 
