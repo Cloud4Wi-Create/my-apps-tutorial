@@ -2,6 +2,7 @@
 
 $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
 
+
 ?>
 
 <?php
