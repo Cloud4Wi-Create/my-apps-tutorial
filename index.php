@@ -2,13 +2,6 @@
 
 require_once('env-config.php');
 
-$getSessionDataUrl = constant('C4W_ENV_CONTROLPANEL_URL') . constant('C4W_ENV_MYAPPS_GET_SK_URL') . $_GET['sk'];
-
-
-?>
-
-<?php
-
 /**
  * @description: This function will not take any parameters,
  * it will just call the C4W API and return the data.  If the
