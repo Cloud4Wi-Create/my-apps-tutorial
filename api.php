@@ -30,6 +30,11 @@ function get_messages($tenantId) {
             $json = $json[$tenantId];
             return $json;
         }
+    } else {
+        return array(
+            'pre' => constant('DEFAULT_PRE_AUTH_MESSAGE'),
+            'post' => constant('DEFAULT_POST_AUTH_MESSAGE')
+        );
     }
 
     return "tenant not found";
