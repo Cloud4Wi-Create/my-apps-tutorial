@@ -11,4 +11,4 @@ define('C4W_ENV_MYAPPS_GET_SK_URL', "/controlpanel/1.0/bridge/sessions/");
 define('DATA_FILE', 'data/messages.txt');
 
 define('DEFAULT_PRE_AUTH_MESSAGE', 'Hello, welcome to our shop!');
-define('DEFAULT_POST_AUTH_MESSAGE', 'Hello, {first_name} {last_name}, thank you for logging in! Enjoy!');
+define('DEFAULT_POST_AUTH_MESSAGE', 'Hello {first_name} {last_name}, thank you for logging in! Enjoy!');
