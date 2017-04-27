@@ -163,7 +163,7 @@ $data = callApi();
      * does not affect the other.
      */
     $.ajax({
-        url:'/api.php',
+        url:'api.php',
         data: {
             // tenant id from config object returned from c4w api
             tenantId:config.tenant.tenant_id,

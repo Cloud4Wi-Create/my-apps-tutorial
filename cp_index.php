@@ -124,7 +124,7 @@ function callApi() {
          * does not affect the other.
          */
         $.ajax({
-            url:'/api.php',
+            url:'api.php',
             data: {
                 tenantId:config.auth.tenantId,
                 action:'get_messages'
@@ -174,7 +174,7 @@ function callApi() {
         if(!apiFailureMessage.hasClass('hide')) apiFailureMessage.addClass('hide');
 
         $.ajax({
-            url:'/api.php',
+            url:'api.php',
             data: {
                 tenantId:config.auth.tenantId,
                 pre:preAuthMessage,
