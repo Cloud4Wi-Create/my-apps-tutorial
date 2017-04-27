@@ -1,5 +1,5 @@
 <?php
-
+require_once('env-config.php');
 
 function set_messages($pre, $post, $tenantId) {
     $file = constant('DATA_FILE');
