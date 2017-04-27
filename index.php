@@ -1,14 +1,5 @@
 <?php
 
-/**
- * These defined constants pull from a config file on the server.
- * If you don't have a config file, feel free to replace the "getenv"
- * method with the commented URLs next to them
- */
-define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL')); // "https://splashportal.cloud4wi.com"
-define('C4W_ENV_CONTROLPANEL_URL', getenv('C4W_ENV_CONTROLPANEL_URL')); // "https://volare.cloud4wi.com"
-define('C4W_ENV_MYAPPS_GET_SK_URL', getenv('C4W_ENV_MYAPPS_GET_SK_URL')); // "/controlpanel/1.0/bridge/sessions/"
-
 $getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
 
 ?>

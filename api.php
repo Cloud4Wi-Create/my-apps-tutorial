@@ -1,5 +1,5 @@
 <?php
-define('DATA_FILE', getenv('DATA_ENV_PATH'));
+
 
 function set_messages($pre, $post, $tenantId) {
     $file = DATA_FILE;
