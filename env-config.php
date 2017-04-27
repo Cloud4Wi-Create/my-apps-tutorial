@@ -20,4 +20,4 @@ if($staging == 'development') {
 }
 
 define('DEFAULT_PRE_AUTH_MESSAGE', 'Hello, welcome to our shop!');
-define('DEFAULT_POST_AUTH_MESSAGE', 'Hello, thank you for logging in! Enjoy!');
+define('DEFAULT_POST_AUTH_MESSAGE', 'Hello, {first_name} {last_name}, thank you for logging in! Enjoy!');
