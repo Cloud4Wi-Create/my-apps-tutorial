@@ -530,3 +530,7 @@ from our API is not completely ready for display when returned.  For example, wh
 last name returned the value says "None". You obviously would not want to display "Hello, Taylor 
 None!".  Same with gender, date, etc. These are all values that should be processed before 
 displaying to the end user.
+* If you are using the APIs provided in the example (these are not comprehensive APIs, more of a
+quick solution in order to show what can be done), please make sure that the 'data' directory
+in the app should be made writable, otherwise the APIs will not be able to write data to the
+txt file.
