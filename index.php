@@ -1,6 +1,6 @@
 <?php
 
-$getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
+$getSessionDataUrl = constant('C4W_ENV_CONTROLPANEL_URL') . constant('C4W_ENV_MYAPPS_GET_SK_URL') . $_GET['sk'];
 
 
 ?>
@@ -23,7 +23,7 @@ function callApi() {
     if(isset($sk) && !empty($sk)) {
 
         // Concatenate URL
-        $url = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk; // https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions
+        $url = constant('C4W_ENV_CONTROLPANEL_URL') . constant('C4W_ENV_MYAPPS_GET_SK_URL') . $sk; // https://volare.cloud4wi.com/controlpanel/1.0/bridge/sessions
 
         // Barebones call to the API using PHP curl
         $curl = curl_init();

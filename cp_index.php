@@ -1,6 +1,6 @@
 <?php
 
-$getSessionDataUrl = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $_GET['sk'];
+$getSessionDataUrl = constant('C4W_ENV_CONTROLPANEL_URL') . constant('C4W_ENV_MYAPPS_GET_SK_URL') . $_GET['sk'];
 echo $getSessionDataUrl;
 
 ?>
@@ -23,7 +23,7 @@ function callApi() {
     if(isset($sk) && !empty($sk)) {
 
         // Concatenate URL
-        $url = C4W_ENV_CONTROLPANEL_URL . C4W_ENV_MYAPPS_GET_SK_URL . $sk;
+        $url = constant('C4W_ENV_CONTROLPANEL_URL') . constant('C4W_ENV_MYAPPS_GET_SK_URL') . $sk;
 
         // Call C4W API
         $curl = curl_init();

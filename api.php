@@ -2,7 +2,7 @@
 
 
 function set_messages($pre, $post, $tenantId) {
-    $file = DATA_FILE;
+    $file = constant('DATA_FILE');
 
     $messages = array("pre" => $pre, "post" => $post);
 
@@ -20,7 +20,7 @@ function set_messages($pre, $post, $tenantId) {
 }
 
 function get_messages($tenantId) {
-    $file = DATA_FILE;
+    $file = constant('DATA_FILE');
 
     if(file_exists($file)) {
         $json = json_decode(file_get_contents($file), true);
@@ -35,7 +35,7 @@ function get_messages($tenantId) {
 }
 
 function get_tenant($tenantId) {
-    $file = DATA_FILE;
+    $file = constant('DATA_FILE');
 
     $json = json_decode(file_get_contents($file), true);
 
