@@ -5,7 +5,7 @@
  * method with the commented URLs next to them
  */
 
-$staging = 'production';
+$staging = 'development';
 
 if($staging == 'development') {
     define('C4W_ENV_SPLASHPORTAL_URL', getenv('C4W_ENV_SPLASHPORTAL_URL')); // "https://splashportal.cloud4wi.com"
