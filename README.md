@@ -525,11 +525,6 @@ it to your advantage.
 * If you are using external resources for the pre-authentication phase (jQuery CDN, your app domain, 
 etc.) then make sure you are also including them in your walled garden.  Otherwise it will be 
 blocked and your app will not work.
-* This has been mentioned before but it bears repeating: The customer object that is returned 
-from our API is not completely ready for display when returned.  For example, when there is no 
-last name returned the value says "None". You obviously would not want to display "Hello, Taylor 
-None!".  Same with gender, date, etc. These are all values that should be processed before 
-displaying to the end user.
 * If you are using the APIs provided in the example (these are not comprehensive APIs, more of a
 quick solution in order to show what can be done), please make sure that the 'data' directory
 in the app should be made writable, otherwise the APIs will not be able to write data to the
