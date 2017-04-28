@@ -79,7 +79,7 @@ function callApi() {
                     </div>
                     <div class="form-group">
                         <label for="post_auth_message">Post Auth Message</label>
-                        <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {name} to the coffee shop!">
+                        <input type="text" class="form-control" id="post_auth_message" placeholder="i.e. Welcome {first_name} to the coffee shop!">
                     </div>
                     <p class="bg-success hide" id="api_success_message">Success</p>
                     <p class="bg-danger hide" id="api_failure_message">Failure</p>
