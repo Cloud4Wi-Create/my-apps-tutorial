@@ -121,7 +121,7 @@ we return an object:
 { 
      "auth": {
         "level": "tenant"
-        "tenantId": "1001"
+        "tenantId": "49e22672dee36c68f819143802bf9c53"
      }
      "lang": "eng"
 } 
@@ -133,7 +133,7 @@ From the Venue level, you will get an object like this:
 {
     "lang": "eng",
     "auth": {
-        "tenantId": "1001",
+        "tenantId": "49e22672dee36c68f819143802bf9c53",
         "level": "wifiarea",
         "wifiareaId": "80808080482080f20148asdf3246b0001"
     }
@@ -304,7 +304,7 @@ bit different:
     },
     "hotspot: {
         "city": "Livorno, Italy",
-        "id": "9067",
+        "id": "84e0801a337411ba2628d2cfb53b6b29",
         "identifier": "685112345D_illiade",
         "latitude": "45.960782503827",
         "longitude": "12.091283106750",
@@ -317,7 +317,7 @@ bit different:
     "tenant": {
         "name": "Taylor's Tenant",
         "read_only": false,
-        "tenant_id": "1001"
+        "tenant_id": "49e22672dee36c68f819143802bf9c53"
     },
     "wifiarea": {
         "name": "Livorno Venue",
@@ -338,7 +338,7 @@ If you test this with a logged in customer, the object will look more like this:
     "customer":{
         "lang":"eng",
         "is_logged":true,
-        "id":"rlC.6yTePhzYg",
+        "id":"0f451c6073638421cb4177c196793d80",
         "first_name":"John",
         "last_name":"Doe",
         "username":"706B5C1D",
@@ -351,7 +351,7 @@ If you test this with a logged in customer, the object will look more like this:
     },
     "hotspot: {
         "city": "Livorno, Italy",
-        "id": "9067",
+        "id": "84e0801a337411ba2628d2cfb53b6b29",
         "identifier": "685112345D_illiade",
         "latitude": "45.960782503827",
         "longitude": "12.091283106750",
@@ -364,7 +364,7 @@ If you test this with a logged in customer, the object will look more like this:
     "tenant": {
         "name": "Taylor's Tenant",
         "read_only": false,
-        "tenant_id": "1001"
+        "tenant_id": "49e22672dee36c68f819143802bf9c53"
     },
     "wifiarea": {
         "name": "Livorno Venue",
