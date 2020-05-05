@@ -1,5 +1,3 @@
-# My Apps Tutorial
-Tutorial for "My Apps" for Volare release 6.5
 
 ## Table of Contents
 * [Purpose](#purpose)
